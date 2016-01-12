@@ -1,12 +1,20 @@
-from main import Sprite
 
 class Tile():
 
+    #Contains all the tiles created (added in __init__())
     List = []
+    #Height and width for now will also have to be changed in the image files
     height, width = 35, 45
-    H, V = 0, 0
-    image_files = {'normal' : 'img/solid_block.png', 'normal_edge' : 'img/solid_block_edge.png', 'blockpoint' : 'img/point_block.png', 'blockpoint_edge' : 'img/point_block_edge.png'}
+    #The vertical and horizontal distance (in tiles) to the wanted tile
+    H, V = 1, 11
 
+    #Image sources to various tile types
+    image_files = { 'normal' : 'img/solid_block.png',
+                    'normal_edge' : 'img/solid_block_edge.png',
+                    'blockpoint' : 'img/point_block.png',
+                    'blockpoint_edge' : 'img/point_block_edge.png'}
+
+    #Initialize the world by creating virtual tiles to cover the screen
     @staticmethod
     def make_tiles(size, level):
         """
@@ -34,6 +42,7 @@ class Tile():
 
         Tile.List.append(self)
 
+    #Returns the tile object corresponding to a tile number
     @staticmethod
     def get_tile(number):
         for tile in Tile.List:
