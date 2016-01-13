@@ -49,8 +49,15 @@ class Game(Widget):
 
     def update(self, *ignore):
         self.player.update()
+
+        boxes_on_point = 0
         for box in self.boxes:
             box.update()
+            if box.tile in self.level.blockpoints:
+                boxes_on_point += 1
+
+        if boxes_on_point == len(self.boxes):
+            print('Level {} beat!'.format(self.level.level))
 
 class Application(App):
     def build(self):
