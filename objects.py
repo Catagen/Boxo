@@ -110,7 +110,7 @@ class Character(Sprite):
                 self.change_sprite('right')
 
                 target_tile = Tile.get_tile(self.tile + Tile.H)
-                
+
                 if target_tile.walkable:
 
                     for box in self.game.boxes:
@@ -150,21 +150,64 @@ class Box(Character):
 
     def move(self, direction):
         #Check direction and the walkable status of the target tile
-        if direction == 'up' and Tile.get_tile(self.tile + Tile.V).walkable:
-            self.velocity_y = self.speed_y
-            self.tile += Tile.V
-            return True
-        elif direction == 'right' and Tile.get_tile(self.tile + 1).walkable:
-            self.velocity_x = self.speed_x
-            self.tile += 1
-            return True
-        elif direction == 'down' and Tile.get_tile(self.tile - Tile.V).walkable:
-            self.velocity_y = -self.speed_y
-            self.tile -= Tile.V
-            return True
-        elif direction == 'left' and Tile.get_tile(self.tile - 1).walkable:
-            self.velocity_x = -self.speed_x
-            self.tile -= 1
-            return True
+        if direction == 'up':
+            target_tile = Tile.get_tile(self.tile + Tile.V)
+            if target_tile.walkable:
+
+                for box in self.game.boxes:
+                    if box.tile == self.tile + Tile.V:
+                        return False
+
+                self.velocity_y = self.speed_y
+                self.tile += Tile.V
+                return True
+
+            else:
+                return False
+
+        elif direction == 'right':
+            target_tile = Tile.get_tile(self.tile + Tile.H)
+            if target_tile.walkable:
+
+                for box in self.game.boxes:
+                    if box.tile == self.tile + Tile.H:
+                        return False
+
+                self.velocity_x = self.speed_x
+                self.tile += 1
+                return True
+
+            else:
+                return False
+
+        elif direction == 'down':
+            target_tile = Tile.get_tile(self.tile - Tile.V)
+            if target_tile.walkable:
+
+                for box in self.game.boxes:
+                    if box.tile == self.tile - Tile.V:
+                        return False
+
+                self.velocity_y = -self.speed_y
+                self.tile -= Tile.V
+                return True
+
+            else:
+                return False
+
+        elif direction == 'left':
+            target_tile = Tile.get_tile(self.tile - Tile.H)
+            if target_tile.walkable:
+
+                for box in self.game.boxes:
+                    if box.tile == self.tile - Tile.H:
+                        return False
+
+                self.velocity_x = -self.speed_x
+                self.tile -= 1
+                return True
+
+            else:
+                return False
 
         return False
