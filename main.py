@@ -14,7 +14,7 @@ from level import *
 class Game(Widget):
     def __init__(self):
         super(Game, self).__init__()
-        self.level = Level.load_level(1337)
+        self.level = Level.load_level(1)
         self.background = Sprite(source='img/background.png')
         self.size = self.background.size
         self.player = None
@@ -74,17 +74,14 @@ class Application(App):
             if deltaX:
                 if deltaX < 0:
                     angle = 180 + atan(deltaY / deltaX) * (180/3.14)
-                elif deltaY < 0:
-                    if deltaX < 0:
+
+                elif deltaX >= 0:
+                    if deltaY < 0:
                         angle = 360 + atan(deltaY / deltaX) * (180/3.14)
                     else:
-                        angle = 360 - atan(deltaY / deltaX) * (180/3.14)
-                else:
-                    angle = atan(deltaY / deltaX) * (180/3.14)
+                        angle = atan(deltaY / deltaX) * (180/3.14)
 
                 self.game.player.move(angle)
-
-                print(angle)
 
 if __name__ == "__main__":
     Application().run()
