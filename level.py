@@ -5,7 +5,7 @@ class Level():
     @staticmethod
     def load_level(level):
         try:
-            print('Loading level {}...'.format(level))
+            print('[INFO              ] [Level       ] Loading level {}'.format(level))
             filename = 'level/level{}.csv'.format(level)
 
             levelfile = open(filename)
@@ -34,7 +34,12 @@ class Level():
 
             levelfile.close()
 
-            return Level(lvl, nrml, blkp, bxsp, plsp)
+            l = Level(lvl, nrml, blkp, bxsp, plsp)
+            print('[INFO              ] [Level       ] File read successfully - returning')
+            return l
+
+        except Exception as e:
+            print('[ERROR             ] [Level       ] {}'.format(e))
 
         except Exception as e:
             print(e)
@@ -45,6 +50,3 @@ class Level():
         self.blockpoints = blockpoints
         self.boxspawn = boxspawn
         self.playerspawn = playerspawn
-
-if __name__ == '__main__':
-    print(Level.load_level(1))
