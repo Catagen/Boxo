@@ -1,20 +1,21 @@
-#Kivy file imports
+
+# Kivy file imports
 from kivy.app import App
 from kivy.uix.label import Label
 from kivy.uix.widget import Widget
-from kivy.uix.image import Image
 from kivy.core.window import Window
 from kivy.clock import Clock
 from kivy.core.audio import SoundLoader
 
-#Python file imports
+# Python file imports
 from math import atan
 
-#Local file imports
+# Local file imports
 from constants import APP_FONT, SPRITE_EDGE_OFFSET
 from objects import Sprite, Player, Box
 from tile import Tile
 from level import Level
+
 
 class Game(Widget):
     def __init__(self, level):
@@ -25,30 +26,46 @@ class Game(Widget):
         self.player = None
         self.boxes = []
 
-        #Initiate the game by creating tiles
+        # Initiate the game by creating tiles
         Tile.make_tiles(self.size, self.level)
 
-        #Add bg widget first to not cover other sprites
+        # Add bg widget first to not cover other sprites
         self.add_widget(self.background)
 
-        #Add proper widgets for every non-empty tile in the Tile.List
+        # Add proper widgets for every non-empty tile in the Tile.List
         for tile in Tile.List:
             if tile.type != 'empty':
                 if Tile.get_tile(tile.number - Tile.V).walkable:
-                    self.add_widget(Sprite(source=Tile.image_files[tile.type], pos=(tile.x, tile.y)), index=2)
+                    self.add_widget(Sprite(
+                        source=Tile.image_files[tile.type],
+                        pos=(tile.x, tile.y)), index=2)
                 else:
-                    self.add_widget(Sprite(source=Tile.image_files[tile.type + '_edge'], pos=(tile.x, tile.y - SPRITE_EDGE_OFFSET)))
+                    self.add_widget(Sprite(
+                        source=Tile.image_files[tile.type + '_edge'],
+                        pos=(tile.x, tile.y - SPRITE_EDGE_OFFSET)))
 
         for tile in self.level.boxspawn:
             self.boxes.append(Box(tile, self))
 
         self.player = Player(self.level.playerspawn, self)
 
-        self.fps_lab = Label(text='FPS: ' + str(Clock.get_rfps()), pos=(2, self.height - 110), font_name=APP_FONT, font_size=18, color=(240,240,240,0.8))
-        self.add_widget(self.fps_lab)
-        self.add_widget(Label(text="Level {}".format(self.level.level), pos=(0, self.height - 80), font_name=APP_FONT, font_size=18, color=(240,240,240,0.8)))
+        self.fps_lab = Label(
+            text='FPS: ' + str(Clock.get_rfps()),
+            pos=(2, self.height - 110),
+            font_name=APP_FONT,
+            font_size=18,
+            color=(240, 240, 240, 0.8))
 
-        #Schedule an interval for the game update function
+        self.add_widget(self.fps_lab)
+
+        self.add_widget(Label(
+            text="Level {}".format(self.level.level),
+            pos=(0, self.height - 80),
+            font_name=APP_FONT,
+            font_size=18,
+            color=(240, 240, 240, 0.8)))
+
+        # Schedule an interval for the game update function
         Clock.schedule_interval(self.update, 1.0/60.0)
 
     def update(self, *ignore):
@@ -71,8 +88,8 @@ class Application(App):
         if sound: sound.play()
 
     def build(self):
-        self.game = Game(2)
-        Window.size = self.game.size #[420, 700]
+        self.game = Game(1)
+        Window.size = self.game.size
         Window.bind(on_motion=self.on_touch_move)
         return self.game
 
