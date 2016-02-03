@@ -21,7 +21,7 @@ class Game(Widget):
     def __init__(self, level):
         super(Game, self).__init__()
         self.level = Level.load_level(level)
-        self.background = Sprite(source='img/background.png')
+        self.background = Sprite(source='img/background.PNG')
         self.size = self.background.size
         self.player = None
         self.boxes = []
